@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html","k":"18"},{"l":"assignments.algorithms"},{"l":"assignments.datastructures"},{"l":"assignments.sorting"}];updateSearchResults();
