@@ -12,7 +12,7 @@ public class BubbleSort extends SortingAlgorithm{
      * Post-condition: `array` is sorted in ascending order
      * 
      * @param array an array of integers
-     * @return a casual description
+     * 
      */
     public void sort(Integer[] array) {
         for (int k = array.length; k >= 2; k --){ // k is the length of the sub-array we are looping through in the inner loop
