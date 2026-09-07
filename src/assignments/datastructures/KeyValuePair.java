@@ -16,6 +16,12 @@ import adt.OrderedPair;
 /// 2. In the first Wednesday, we will use this class as a model to understand how variables and objects are represented in memory.
 /// 3. In the first weekend, we will learn how to adapt this class to use "generics".
 /// 4. Later on, we will use this class to implement a *Map*, a data structure similar to Python's `dict`.
+/**
+ * A key-value pair.
+ *
+ * @param <K> the type of the key
+ * @param <V> the type of the value
+ */
 public class KeyValuePair<K, V> implements OrderedPair<K, V> {
     private K key;
     private V value;

@@ -5,7 +5,10 @@ package assignments.sorting;
  *  Swap adjacent elements over and over until the whole array is sorted.
  */
 public class BubbleSort extends SortingAlgorithm{
-    
+    /**
+    * Constructs a BubbleSort sorting algorithm.
+    */
+    public BubbleSort() {}
     /**
      * Sort an array in-place using bubble sort.
      * 
@@ -16,7 +19,7 @@ public class BubbleSort extends SortingAlgorithm{
     public void sort(Integer[] array) {
         for (int k = array.length; k >= 2; k --){ // k is the length of the sub-array we are looping through in the inner loop
             for (int i = 0; i < k-1; i ++) { //
-                if (array [i] > array[i+1]) {
+                if (array[i].compareTo(array[i + 1]) > 0) {
                      // swap adjacent item (i and i+1)
                      swap(array, i, i+1);
                 }
