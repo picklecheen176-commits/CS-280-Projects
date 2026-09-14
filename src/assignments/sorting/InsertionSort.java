@@ -3,7 +3,7 @@ package assignments.sorting;
 /**
  * Sorts an array using the insertion sort algorithm.
  */
-public class InsertionSort extends SortingAlgorithm {
+public class InsertionSort<T extends Comparable<T>> extends SortingAlgorithm<T> {
 
     /**
      * Constructs an InsertionSort sorting algorithm.
@@ -15,12 +15,12 @@ public class InsertionSort extends SortingAlgorithm {
      *
      * Post-condition: `array` is sorted in ascending order.
      *
-     * @param array an array of integers
+     * @param array an array of comparable elements
      */
     @Override
-    public void sort(Integer[] array) {
+    public void sort(T[] array) {
         for (int i = 1; i < array.length; i++) {
-            Integer value = array[i];
+            T value = array[i];
             int j = i - 1;
 
             while (j >= 0 && array[j].compareTo(value) > 0) {
@@ -39,8 +39,8 @@ public class InsertionSort extends SortingAlgorithm {
      * @param i the first index to swap
      * @param j the second index to swap
      */
-    private void swap(Integer[] array, int i, int j) {
-        Integer temp = array[i];
+    private void swap(T[] array, int i, int j) {
+        T temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
@@ -51,7 +51,7 @@ public class InsertionSort extends SortingAlgorithm {
      * @param args command-line arguments
      */
     public static void main(String[] args) {
-        SortingAlgorithm.validate(new InsertionSort());
+        SortingAlgorithm.validate(new InsertionSort<Integer>());
         System.out.println("InsertionSort has passed all tests.");
     }
 }
