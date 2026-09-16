@@ -35,6 +35,7 @@ public class Test {
         // Test data structures.
         KeyValuePair.main(args);
         Vector.main(args);
+        LinkedList.main(args);
 
         return true;
     }
