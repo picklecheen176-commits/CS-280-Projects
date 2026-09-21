@@ -1,6 +1,8 @@
 package assignments.datastructures;
 
 import adt.List;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /// An extensible list backed by an array buffer.
 ///
@@ -13,7 +15,7 @@ import adt.List;
 /// This is a very expensive operation, so you want to make sure it occurs very infrequently.
 ///
 /// @param <T> the type of each element
-public class Vector<T> implements List<T> {
+public class Vector<T> implements List<T>, Iterable<T> {
     /** The initial amount of buffer space in a newly-created vector. */
     public static final int INITIAL_BUFFER_SIZE = 10;
 
@@ -25,8 +27,10 @@ public class Vector<T> implements List<T> {
      */
     @SuppressWarnings("unchecked")
     public Vector() {
-        // Generic types (i.e. `T`) don't technically exist at runtime, so you have to allocate arrays generically and then cast them.
-        // This is normally bad practice and generates a warning, hence the @SuppressWarnings tag before the method.
+        // Generic types (i.e. `T`) don't technically exist at runtime,
+        // so you have to allocate arrays generically and then cast them.
+        // This is normally bad practice and generates a warning,
+        // hence the @SuppressWarnings tag before the method.
         this.array = (T[])(new Object[INITIAL_BUFFER_SIZE]);
         this.size = 0;
     }
@@ -117,6 +121,31 @@ public class Vector<T> implements List<T> {
     }
 
     /**
+     * Return an iterator for this vector.
+     * @return an iterator over the elements in the vector
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < size;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+
+                return array[index++];
+            }
+        };
+    }
+
+    /**
      * Resize the internal buffer array.
      *
      * This method involves copying from the current buffer to a newly allocated one.
@@ -140,6 +169,20 @@ public class Vector<T> implements List<T> {
      */
     public static void main(String[] args) {
         List.validate(new Vector<>());
+
+        // Test iterator.
+        Vector<Integer> vector = new Vector<>();
+
+        for (int i = 0; i < INITIAL_BUFFER_SIZE; i++)
+            vector.insert(0, i);
+
+        Iterator<Integer> iter = vector.iterator();
+
+        for (int i = INITIAL_BUFFER_SIZE; i > 0; i--)
+            assert iter.next().equals(i - 1);
+
+        assert !iter.hasNext();
+
         System.out.println("Vector passes all tests.");
     }
 }
