@@ -36,6 +36,7 @@ public class Test {
         KeyValuePair.main(args);
         Vector.main(args);
         LinkedList.main(args);
+        CircularLinkedList.main(args);
 
         return true;
     }
