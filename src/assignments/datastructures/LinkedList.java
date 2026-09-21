@@ -1,6 +1,8 @@
 package assignments.datastructures;
 
 import adt.List;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /// An extensible list backed by a chain of nodes.
 ///
@@ -14,7 +16,7 @@ import adt.List;
 /// one must first traverse through the chain of nodes from the beginning of the list.
 ///
 /// @param <T> the type of each element
-public class LinkedList<T> implements List<T> {
+public class LinkedList<T> implements List<T>, Iterable<T> {
 
     private Node head;
     private int size;
@@ -145,6 +147,35 @@ public class LinkedList<T> implements List<T> {
     }
 
     /**
+     * Return an iterator for this linked list.
+     * @return an iterator over the elements in the list
+     */
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+
+            private Node current = head;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public T next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+
+                T value = current.data;
+                current = current.link;
+
+                return value;
+            }
+        };
+    }
+
+    /**
      * An encapsulation of a value with a pointer, allowing us to chain to another value.
      */
     private class Node {
@@ -168,6 +199,20 @@ public class LinkedList<T> implements List<T> {
      */
     public static void main(String[] args) {
         List.validate(new LinkedList<>());
+
+        // Test iterator.
+        LinkedList<Integer> list = new LinkedList<>();
+
+        for (int i = 0; i < 5; i++)
+            list.insert(0, i);
+
+        Iterator<Integer> iter = list.iterator();
+
+        for (int i = 5; i > 0; i--)
+            assert iter.next().equals(i - 1);
+
+        assert !iter.hasNext();
+
         System.out.println("LinkedList passes all tests.");
     }
 }
