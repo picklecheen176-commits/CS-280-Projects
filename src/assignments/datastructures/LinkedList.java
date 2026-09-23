@@ -1,6 +1,7 @@
 package assignments.datastructures;
 
 import adt.List;
+import adt.Stack;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -8,15 +9,9 @@ import java.util.NoSuchElementException;
 ///
 /// The idea here is to wrap each datum in a larger structure, a *node*,
 /// which also contains a pointer to the node containing the *next* element in the list.
-/// This structure permits efficient insertion and deletion,
-/// in the sense that it only requires rearranging pointers nearby where the change takes place.
-///
-/// However, this structure foregoes *random access*, i.e. easy access to arbitrary locations in the list.
-/// In order to make any changes to a location in the middle of the list,
-/// one must first traverse through the chain of nodes from the beginning of the list.
 ///
 /// @param <T> the type of each element
-public class LinkedList<T> implements List<T>, Iterable<T> {
+public class LinkedList<T> implements List<T>, Stack<T>, Iterable<T> {
 
     private Node head;
     private int size;
@@ -31,6 +26,7 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
 
     /**
      * Compute the number of items in this list.
+     *
      * @return the number of items
      */
     public int length() {
@@ -39,7 +35,8 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
 
     /**
      * Fetch an item from the list.
-     * @param index the location of the item - a nonnegative integer less than the length of the list
+     *
+     * @param index the location of the item
      * @return the value stored at the given location
      */
     public T at(int index) {
@@ -56,7 +53,8 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
 
     /**
      * Change an item in the list.
-     * @param index the location of the item - a nonnegative integer less than the length of the list
+     *
+     * @param index the location of the item
      * @param value the new value to assign at the given location
      */
     public void set(int index, T value) {
@@ -73,6 +71,7 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
 
     /**
      * Check if the list contains a given value.
+     *
      * @param value the value to look for
      * @return true iff the collection contains value
      */
@@ -96,7 +95,8 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
 
     /**
      * Insert an item into the list.
-     * @param index the location of where to put the item - a nonnegative integer less than or equal to the length of the list
+     *
+     * @param index the location of where to put the item
      * @param value the new value to put at the given location
      */
     public void insert(int index, T value) {
@@ -119,7 +119,8 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
 
     /**
      * Remove an item from the list.
-     * @param index the location to delete from - a nonnegative integer less than the length of the list
+     *
+     * @param index the location to delete from
      * @return the value which was removed
      */
     public T delete(int index) {
@@ -147,7 +148,52 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
     }
 
     /**
+     * Check whether the stack is empty.
+     *
+     * @return true if the stack contains no elements
+     */
+    @Override
+    public boolean isEmpty() {
+        return this.size == 0;
+    }
+
+    /**
+     * Push a value onto the top of the stack.
+     *
+     * @param value the value to push
+     */
+    @Override
+    public void push(T value) {
+        insert(0, value);
+    }
+
+    /**
+     * Remove and return the top value from the stack.
+     *
+     * @return the value removed from the top
+     */
+    @Override
+    public T pop() {
+        assert !isEmpty();
+
+        return delete(0);
+    }
+
+    /**
+     * Return the top value without removing it.
+     *
+     * @return the value on top of the stack
+     */
+    @Override
+    public T peek() {
+        assert !isEmpty();
+
+        return at(0);
+    }
+
+    /**
      * Return an iterator for this linked list.
+     *
      * @return an iterator over the elements in the list
      */
     @Override
@@ -176,15 +222,17 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
     }
 
     /**
-     * An encapsulation of a value with a pointer, allowing us to chain to another value.
+     * A node containing data and a link to the next node.
      */
     private class Node {
+
         T data;
         Node link;
 
         /**
-         * Initialize a node with no children.
-         * @param data the data value
+         * Initialize a node.
+         *
+         * @param data the value stored in the node
          * @param link the next node in the chain
          */
         Node(T data, Node link) {
@@ -195,21 +243,25 @@ public class LinkedList<T> implements List<T>, Iterable<T> {
 
     /**
      * Run validation tests.
-     * @param args command-line args
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
         List.validate(new LinkedList<>());
+        Stack.validate(new LinkedList<>());
 
         // Test iterator.
         LinkedList<Integer> list = new LinkedList<>();
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 5; i++) {
             list.insert(0, i);
+        }
 
         Iterator<Integer> iter = list.iterator();
 
-        for (int i = 5; i > 0; i--)
+        for (int i = 5; i > 0; i--) {
             assert iter.next().equals(i - 1);
+        }
 
         assert !iter.hasNext();
 

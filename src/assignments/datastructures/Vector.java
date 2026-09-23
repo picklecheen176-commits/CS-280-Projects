@@ -1,6 +1,7 @@
 package assignments.datastructures;
 
 import adt.List;
+import adt.Stack;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -15,7 +16,8 @@ import java.util.NoSuchElementException;
 /// This is a very expensive operation, so you want to make sure it occurs very infrequently.
 ///
 /// @param <T> the type of each element
-public class Vector<T> implements List<T>, Iterable<T> {
+public class Vector<T> implements List<T>, Stack<T>, Iterable<T> {
+
     /** The initial amount of buffer space in a newly-created vector. */
     public static final int INITIAL_BUFFER_SIZE = 10;
 
@@ -27,16 +29,13 @@ public class Vector<T> implements List<T>, Iterable<T> {
      */
     @SuppressWarnings("unchecked")
     public Vector() {
-        // Generic types (i.e. `T`) don't technically exist at runtime,
-        // so you have to allocate arrays generically and then cast them.
-        // This is normally bad practice and generates a warning,
-        // hence the @SuppressWarnings tag before the method.
         this.array = (T[])(new Object[INITIAL_BUFFER_SIZE]);
         this.size = 0;
     }
 
     /**
      * Compute the number of items in this list.
+     *
      * @return the number of items
      */
     public int length() {
@@ -45,7 +44,8 @@ public class Vector<T> implements List<T>, Iterable<T> {
 
     /**
      * Fetch an item from the list.
-     * @param index the location of the item - a nonnegative integer less than the length of the list
+     *
+     * @param index the location of the item
      * @return the value stored at the given location
      */
     public T at(int index) {
@@ -56,7 +56,8 @@ public class Vector<T> implements List<T>, Iterable<T> {
 
     /**
      * Change an item in the list.
-     * @param index the location of the item - a nonnegative integer less than the length of the list
+     *
+     * @param index the location of the item
      * @param value the new value to assign at the given location
      */
     public void set(int index, T value) {
@@ -67,12 +68,17 @@ public class Vector<T> implements List<T>, Iterable<T> {
 
     /**
      * Check if the list contains a given value.
+     *
      * @param value the value to look for
      * @return true iff the collection contains value
      */
     public boolean contains(T value) {
         for (int i = 0; i < this.size; i++) {
-            if (this.array[i].equals(value)) {
+            if (value == null) {
+                if (this.array[i] == null) {
+                    return true;
+                }
+            } else if (value.equals(this.array[i])) {
                 return true;
             }
         }
@@ -82,7 +88,8 @@ public class Vector<T> implements List<T>, Iterable<T> {
 
     /**
      * Insert an item into the list.
-     * @param index the location of where to put the item - a nonnegative integer less than or equal to the length of the list
+     *
+     * @param index the location of where to put the item
      * @param value the new value to put at the given location
      */
     public void insert(int index, T value) {
@@ -102,7 +109,8 @@ public class Vector<T> implements List<T>, Iterable<T> {
 
     /**
      * Remove an item from the list.
-     * @param index the location to delete from - a nonnegative integer less than the length of the list
+     *
+     * @param index the location to delete from
      * @return the value which was removed
      */
     public T delete(int index) {
@@ -121,12 +129,58 @@ public class Vector<T> implements List<T>, Iterable<T> {
     }
 
     /**
+     * Check whether the stack is empty.
+     *
+     * @return true if the stack contains no elements
+     */
+    @Override
+    public boolean isEmpty() {
+        return this.size == 0;
+    }
+
+    /**
+     * Push a value onto the top of the stack.
+     *
+     * @param value the value to push
+     */
+    @Override
+    public void push(T value) {
+        insert(this.size, value);
+    }
+
+    /**
+     * Remove and return the top value from the stack.
+     *
+     * @return the value removed from the top
+     */
+    @Override
+    public T pop() {
+        assert !isEmpty();
+
+        return delete(this.size - 1);
+    }
+
+    /**
+     * Return the top value without removing it.
+     *
+     * @return the value on top of the stack
+     */
+    @Override
+    public T peek() {
+        assert !isEmpty();
+
+        return at(this.size - 1);
+    }
+
+    /**
      * Return an iterator for this vector.
+     *
      * @return an iterator over the elements in the vector
      */
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
+
             private int index = 0;
 
             @Override
@@ -148,9 +202,7 @@ public class Vector<T> implements List<T>, Iterable<T> {
     /**
      * Resize the internal buffer array.
      *
-     * This method involves copying from the current buffer to a newly allocated one.
-     *
-     * @param newSize the new size of the internal buffer array
+     * @param newSize the new size of the internal buffer
      */
     @SuppressWarnings("unchecked")
     private void resize(int newSize) {
@@ -165,21 +217,25 @@ public class Vector<T> implements List<T>, Iterable<T> {
 
     /**
      * Run validation tests.
-     * @param args command-line args
+     *
+     * @param args command-line arguments
      */
     public static void main(String[] args) {
         List.validate(new Vector<>());
+        Stack.validate(new Vector<>());
 
         // Test iterator.
         Vector<Integer> vector = new Vector<>();
 
-        for (int i = 0; i < INITIAL_BUFFER_SIZE; i++)
+        for (int i = 0; i < INITIAL_BUFFER_SIZE; i++) {
             vector.insert(0, i);
+        }
 
         Iterator<Integer> iter = vector.iterator();
 
-        for (int i = INITIAL_BUFFER_SIZE; i > 0; i--)
+        for (int i = INITIAL_BUFFER_SIZE; i > 0; i--) {
             assert iter.next().equals(i - 1);
+        }
 
         assert !iter.hasNext();
 
