@@ -1,6 +1,7 @@
 package assignments.datastructures;
 
 import adt.List;
+import adt.Queue;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -14,7 +15,8 @@ import java.util.NoSuchElementException;
  *
  * @param <T> the type of each element
  */
-public class CircularLinkedList<T> implements List<T>, Iterable<T> {
+public class CircularLinkedList<T>
+        implements List<T>, Queue<T>, Iterable<T> {
 
     /** The final node in the circular linked list. */
     private Node tail;
@@ -117,13 +119,16 @@ public class CircularLinkedList<T> implements List<T>, Iterable<T> {
         if (this.size == 0) {
             newNode.link = newNode;
             this.tail = newNode;
+
         } else if (index == 0) {
             newNode.link = this.tail.link;
             this.tail.link = newNode;
+
         } else if (index == this.size) {
             newNode.link = this.tail.link;
             this.tail.link = newNode;
             this.tail = newNode;
+
         } else {
             Node current = this.tail.link;
 
@@ -152,10 +157,13 @@ public class CircularLinkedList<T> implements List<T>, Iterable<T> {
         if (this.size == 1) {
             removedValue = this.tail.data;
             this.tail = null;
+
         } else if (index == 0) {
             Node head = this.tail.link;
+
             removedValue = head.data;
             this.tail.link = head.link;
+
         } else {
             Node current = this.tail.link;
 
@@ -164,6 +172,7 @@ public class CircularLinkedList<T> implements List<T>, Iterable<T> {
             }
 
             Node removedNode = current.link;
+
             removedValue = removedNode.data;
             current.link = removedNode.link;
 
@@ -178,6 +187,50 @@ public class CircularLinkedList<T> implements List<T>, Iterable<T> {
     }
 
     /**
+     * Check whether the queue is empty.
+     *
+     * @return true if the queue contains no elements
+     */
+    @Override
+    public boolean isEmpty() {
+        return this.size == 0;
+    }
+
+    /**
+     * Add a value to the back of the queue.
+     *
+     * @param value the value to add
+     */
+    @Override
+    public void enqueue(T value) {
+        insert(this.size, value);
+    }
+
+    /**
+     * Remove and return the value at the front of the queue.
+     *
+     * @return the value removed from the front
+     */
+    @Override
+    public T dequeue() {
+        assert !isEmpty();
+
+        return delete(0);
+    }
+
+    /**
+     * Return the value at the front of the queue without removing it.
+     *
+     * @return the value at the front of the queue
+     */
+    @Override
+    public T peek() {
+        assert !isEmpty();
+
+        return this.tail.link.data;
+    }
+
+    /**
      * Create an iterator that moves through every item in the list once.
      *
      * @return an iterator over the elements in this list
@@ -187,12 +240,12 @@ public class CircularLinkedList<T> implements List<T>, Iterable<T> {
         return new Iterator<T>() {
 
             private Node current =
-                tail == null ? null : tail.link;
+                    tail == null ? null : tail.link;
 
             private int remaining = size;
 
             /**
-             * Check whether another item remains in the iterator.
+             * Check whether another item remains.
              *
              * @return true if another item remains
              */
@@ -202,10 +255,9 @@ public class CircularLinkedList<T> implements List<T>, Iterable<T> {
             }
 
             /**
-             * Return the next item in the iterator.
+             * Return the next item.
              *
              * @return the next value
-             * @throws NoSuchElementException if no elements remain
              */
             @Override
             public T next() {
@@ -251,11 +303,13 @@ public class CircularLinkedList<T> implements List<T>, Iterable<T> {
      * @param args command-line arguments
      */
     public static void main(String[] args) {
+
         List.validate(new CircularLinkedList<>());
+        Queue.validate(new CircularLinkedList<>());
 
         // Test iterator.
         CircularLinkedList<Integer> list =
-            new CircularLinkedList<>();
+                new CircularLinkedList<>();
 
         for (int i = 0; i < 5; i++) {
             list.insert(0, i);
@@ -270,7 +324,7 @@ public class CircularLinkedList<T> implements List<T>, Iterable<T> {
         assert !iter.hasNext();
 
         System.out.println(
-            "CircularLinkedList passes all tests."
+                "CircularLinkedList passes all tests."
         );
     }
 }
