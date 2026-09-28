@@ -35,6 +35,7 @@ public class Test {
         BubbleSort.main(args);
         SelectionSort.main(args);
         InsertionSort.main(args);
+        MergeSort.main(args);
 
         // Test data structures.
         KeyValuePair.main(args);
