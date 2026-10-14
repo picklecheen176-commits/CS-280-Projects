@@ -43,6 +43,8 @@ public class Test {
         Vector.main(args);
         LinkedList.main(args);
         CircularLinkedList.main(args);
+        PriorityEnqueuer.main(args);
+        PriorityDequeuer.main(args);
 
         // Test Fibonacci algorithms.
         testFibonacciAlgorithms();
