@@ -45,6 +45,7 @@ public class Test {
         CircularLinkedList.main(args);
         PriorityEnqueuer.main(args);
         PriorityDequeuer.main(args);
+        BinarySearchTree.main(args);
 
         // Test Fibonacci algorithms.
         testFibonacciAlgorithms();
