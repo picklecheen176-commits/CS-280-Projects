@@ -46,6 +46,7 @@ public class Test {
         PriorityEnqueuer.main(args);
         PriorityDequeuer.main(args);
         BinarySearchTree.main(args);
+        MinHeap.main(args);
 
         // Test Fibonacci algorithms.
         testFibonacciAlgorithms();
