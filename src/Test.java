@@ -38,6 +38,7 @@ public class Test {
         MergeSort.main(args);
         QuickSort.main(args);
         BucketSort.main(args);
+        TreeSort.main(args);
 
         // Test data structures.
         KeyValuePair.main(args);
