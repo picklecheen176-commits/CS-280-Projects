@@ -41,6 +41,7 @@ public class Test {
         BucketSort.main(args);
         TreeSort.main(args);
         testShellSort();
+        testRadixSort();
 
         // Test data structures.
         KeyValuePair.main(args);
@@ -101,6 +102,52 @@ public class Test {
 
         System.out.println("ShellSort passes all tests.");
     }
+
+
+    private static void testRadixSort() {
+
+        RadixSort sort = new RadixSort();
+
+        // Test normal numbers.
+        Integer[] numbers = {9, 5, 3, 7, 1};
+        sort.sort(numbers);
+
+        assert java.util.Arrays.equals(
+            numbers, new Integer[]{1, 3, 5, 7, 9}
+        );
+
+        // Test reverse order.
+        Integer[] reverse = {5, 4, 3, 2, 1};
+        sort.sort(reverse);
+
+        assert java.util.Arrays.equals(
+            reverse, new Integer[]{1, 2, 3, 4, 5}
+        );
+
+        // Test negative numbers and duplicates.
+        Integer[] negatives = {3, -1, 3, 0, -5};
+        sort.sort(negatives);
+
+        assert java.util.Arrays.equals(
+            negatives, new Integer[]{-5, -1, 0, 3, 3}
+        );
+
+        // Test integer limits.
+        Integer[] limits = {Integer.MAX_VALUE, 0, Integer.MIN_VALUE};
+        sort.sort(limits);
+
+        assert java.util.Arrays.equals(
+            limits, new Integer[]{Integer.MIN_VALUE, 0, Integer.MAX_VALUE}
+        );
+
+        // Test empty array.
+        Integer[] empty = {};
+        sort.sort(empty);
+        assert empty.length == 0;
+
+        System.out.println("RadixSort passes all tests.");
+    }
+
 
     private static void testFibonacciAlgorithms() {
 
