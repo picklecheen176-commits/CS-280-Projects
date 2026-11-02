@@ -1,3 +1,4 @@
+
 import assignments.datastructures.*;
 import assignments.sorting.*;
 import assignments.algorithms.*;
@@ -39,6 +40,7 @@ public class Test {
         QuickSort.main(args);
         BucketSort.main(args);
         TreeSort.main(args);
+        testShellSort();
 
         // Test data structures.
         KeyValuePair.main(args);
@@ -54,6 +56,50 @@ public class Test {
         testFibonacciAlgorithms();
 
         return true;
+    }
+
+    private static void testShellSort() {
+
+        ShellSort<Integer> sort = new ShellSort<>();
+
+        // Test unsorted numbers.
+        Integer[] numbers = {9, 5, 3, 7, 1};
+        sort.sort(numbers);
+
+        assert java.util.Arrays.equals(
+            numbers, new Integer[]{1, 3, 5, 7, 9}
+        );
+
+        // Test reverse order.
+        Integer[] reverse = {5, 4, 3, 2, 1};
+        sort.sort(reverse);
+
+        assert java.util.Arrays.equals(
+            reverse, new Integer[]{1, 2, 3, 4, 5}
+        );
+
+        // Test duplicates and negative numbers.
+        Integer[] duplicates = {3, -1, 3, 0, -5};
+        sort.sort(duplicates);
+
+        assert java.util.Arrays.equals(
+            duplicates, new Integer[]{-5, -1, 0, 3, 3}
+        );
+
+        // Test empty array.
+        Integer[] empty = {};
+        sort.sort(empty);
+        assert empty.length == 0;
+
+        // Test strings.
+        String[] words = {"cat", "apple", "dog"};
+        new ShellSort<String>().sort(words);
+
+        assert java.util.Arrays.equals(
+            words, new String[]{"apple", "cat", "dog"}
+        );
+
+        System.out.println("ShellSort passes all tests.");
     }
 
     private static void testFibonacciAlgorithms() {
