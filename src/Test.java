@@ -53,6 +53,7 @@ public class Test {
         BinarySearchTree.main(args);
         MinHeap.main(args);
         TreeSet.main(args);
+        VectorSet.main(args);
 
         // Test Fibonacci algorithms.
         testFibonacciAlgorithms();
