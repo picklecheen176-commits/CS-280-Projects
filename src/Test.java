@@ -54,6 +54,7 @@ public class Test {
         MinHeap.main(args);
         TreeSet.main(args);
         VectorSet.main(args);
+        HashSet.main(args);
 
         // Test Fibonacci algorithms.
         testFibonacciAlgorithms();
